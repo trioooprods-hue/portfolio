@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>م. منال عبد الفتاح | مهندسة زراعية - وزارة الري</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        irrigation: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        water: {
+                            50: '#ecfeff',
+                            100: '#cffafe',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            700: '#0e7490',
+                            800: '#155e75',
+                            900: '#164e63',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts - Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-irrigation-500 selection:text-white">
+
+    <!-- نافذة منسدلة للتنبيهات (بديل alert) -->
+    <div id="toast-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-300" id="modal-content">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-irrigation-100 text-irrigation-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-2">تم الإرسال بنجاح!</h3>
+                <p id="toast-message" class="text-slate-600 mb-6">شكراً لتواصلكِ، سيتم الرد في أقرب وقت.</p>
+                <button onclick="closeModal()" class="w-full bg-irrigation-600 text-white font-semibold py-2.5 rounded-xl hover:bg-irrigation-700 transition">حسناً</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- شريط التنقل (Navbar) -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-irrigation-600 to-water-600 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition">
+                    <i class="fa-solid fa-seedling text-xl"></i>
+                </div>
+                <div>
+                    <span class="block font-black text-lg text-slate-900 leading-tight">م. منال عبد الفتاح</span>
+                    <span class="block text-xs text-irrigation-700 font-semibold">مهندسة زراعية - وزارة الري</span>
+                </div>
+            </a>
+
+            <!-- روابط سطح المكتب -->
+            <nav class="hidden md:flex items-center gap-8 font-semibold text-slate-600">
+                <a href="#about" class="hover:text-irrigation-600 transition">عني</a>
+                <a href="#expertise" class="hover:text-irrigation-600 transition">مجالات الخبرة</a>
+                <a href="#projects" class="hover:text-irrigation-600 transition">المشاريع</a>
+                <a href="#contact" class="hover:text-irrigation-600 transition">تواصل معي</a>
+            </nav>
+
+            <div class="hidden md:flex items-center gap-4">
+                <a href="#contact" class="bg-gradient-to-r from-irrigation-600 to-water-600 text-white px-6 py-2.5 rounded-xl font-semibold shadow-md hover:shadow-lg hover:opacity-95 transition transform hover:-translate-y-0.5">
+                    احجز استشارة
+                </a>
+            </div>
+
+            <!-- زر القائمة للموبايل -->
+            <button id="menu-btn" class="md:hidden text-slate-700 text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- قائمة الموبايل المنسدلة -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-100 px-4 pt-2 pb-6 space-y-3">
+            <a href="#about" class="block py-2 text-slate-600 font-medium hover:text-irrigation-600">عني</a>
+            <a href="#expertise" class="block py-2 text-slate-600 font-medium hover:text-irrigation-600">مجالات الخبرة</a>
+            <a href="#projects" class="block py-2 text-slate-600 font-medium hover:text-irrigation-600">المشاريع</a>
+            <a href="#contact" class="block py-2 text-slate-600 font-medium hover:text-irrigation-600">تواصل معي</a>
+        </div>
+    </header>
+
+    <!-- قسم الهيرو (Hero Section) -->
+    <section class="relative overflow-hidden bg-gradient-to-br from-irrigation-50 via-water-50 to-white py-20 lg:py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 text-right">
+                    <div class="inline-flex items-center gap-2 bg-irrigation-100 text-irrigation-800 px-4 py-1.5 rounded-full text-sm font-bold mb-6">
+                        <i class="fa-solid fa-droplet text-water-600"></i> وزارة الموارد المائية والري
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 leading-tight mb-6">
+                        أهلاً بكم، أنا <span class="text-transparent bg-clip-text bg-gradient-to-r from-irrigation-600 to-water-600">منال عبد الفتاح</span>
+                    </h1>
+                    <p class="text-lg sm:text-xl text-slate-600 leading-relaxed mb-8 max-w-2xl">
+                        مهندسة زراعية شغوفة بتطوير أنظمة الري الحديثة، ترشيد استهلاك المياه، وتحقيق الاستدامة الزراعية لخدمة الأمن المائي والغذائي في مصرنا الحبيبة.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#projects" class="bg-irrigation-600 hover:bg-irrigation-700 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg shadow-irrigation-600/20 transition flex items-center gap-2">
+                            <span>استعرض مشاريعي</span>
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </a>
+                        <a href="#contact" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-bold px-8 py-3.5 rounded-xl transition flex items-center gap-2">
+                            <span>تواصل معي</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- صورة تعبيرية / بطاقة تعريفية بصرية -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-md">
+                        <div class="absolute -inset-1.5 bg-gradient-to-r from-irrigation-600 to-water-600 rounded-3xl blur-lg opacity-30 animate-pulse"></div>
+                        <div class="relative bg-white border border-slate-100 p-8 rounded-3xl shadow-xl text-center">
+                            <div class="w-32 h-32 mx-auto rounded-full bg-gradient-to-tr from-irrigation-500 to-water-500 flex items-center justify-center text-white text-5xl mb-6 shadow-inner">
+                                <i class="fa-solid fa-user-gear"></i>
+                            </div>
+                            <h3 class="text-2xl font-black text-slate-900 mb-1">م. منال عبد الفتاح</h3>
+                            <p class="text-irrigation-700 font-semibold mb-4">مهندسة زراعية استشارية</p>
+                            <div class="border-t border-slate-100 pt-4 flex justify-around text-slate-600 text-sm font-medium">
+                                <div>
+                                    <span class="block text-xl font-bold text-slate-900">+10</span>
+                                    <span>سنوات خبرة</span>
+                                </div>
+                                <div class="border-r border-slate-100"></div>
+                                <div>
+                                    <span class="block text-xl font-bold text-slate-900">وزارة الري</span>
+                                    <span>القطاع الحكومي</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم من أنا (About Section) -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-water-600 font-bold uppercase tracking-wider text-sm">نبذة تعريفية</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mt-2 mb-4">مهندسة تكرس علمها لخدمة الزراعة والماء</h2>
+                <div class="w-24 h-1.5 bg-irrigation-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6 text-slate-600 text-lg leading-relaxed">
+                    <p>
+                        أعمل كمهندسة زراعية ضمن الكوادر الفنية في وزارة الموارد المائية والري، حيث أساهم في تخطيط وتنفيذ المشاريع القومية المتعلقة بتطوير شبكات الري، ورفع كفاءة استخدام المياه في القطاع الزراعي.
+                    </p>
+                    <p>
+                        أؤمن بأن المستقبل يكمن في التحول الرقمي والتطبيقات الذكية للزراعة المستدامة، وعملت على مدار مسيرتي المهنية على تقديم دراسات فنية دقيقة وتوعية مستمرة للمزارعين بأهمية نظم الري الحديثة (كالرش والتنقيط).
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 pt-4">
+                        <div class="bg-irrigation-50 p-4 rounded-2xl border border-irrigation-100">
+                            <i class="fa-solid fa-check-circle text-irrigation-600 text-xl mb-2"></i>
+                            <h4 class="font-bold text-slate-900 mb-1">إدارة الموارد المائية</h4>
+                            <p class="text-sm text-slate-500">تخطيط استراتيجي لترشيد المياه.</p>
+                        </div>
+                        <div class="bg-water-50 p-4 rounded-2xl border border-water-100">
+                            <i class="fa-solid fa-leaf text-water-600 text-xl mb-2"></i>
+                            <h4 class="font-bold text-slate-900 mb-1">الزراعة المستدامة</h4>
+                            <p class="text-sm text-slate-500">تطوير نظم الإنتاج الزراعي البيئي.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-4">
+                        <div class="bg-slate-100 rounded-3xl p-6 text-center hover:shadow-md transition">
+                            <i class="fa-solid fa-water text-3xl text-water-600 mb-3"></i>
+                            <h4 class="font-bold text-slate-900">هندسة الري</h4>
+                            <p class="text-xs text-slate-500 mt-1">تأهيل الترع والمساقي</p>
+                        </div>
+                        <div class="bg-irrigation-50 rounded-3xl p-6 text-center hover:shadow-md transition">
+                            <i class="fa-solid fa-seedling text-3xl text-irrigation-600 mb-3"></i>
+                            <h4 class="font-bold text-slate-900">دراسات التربة</h4>
+                            <p class="text-xs text-slate-500 mt-1">تحليل خصوبة ونوعية الأراضي</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4 pt-8">
+                        <div class="bg-water-50 rounded-3xl p-6 text-center hover:shadow-md transition">
+                            <i class="fa-solid fa-chart-line text-3xl text-water-600 mb-3"></i>
+                            <h4 class="font-bold text-slate-900">تقييم المشاريع</h4>
+                            <p class="text-xs text-slate-500 mt-1">متابعة الأداء المائي والزراعي</p>
+                        </div>
+                        <div class="bg-slate-100 rounded-3xl p-6 text-center hover:shadow-md transition">
+                            <i class="fa-solid fa-chalkboard-user text-3xl text-irrigation-600 mb-3"></i>
+                            <h4 class="font-bold text-slate-900">إرشاد زراعي</h4>
+                            <p class="text-xs text-slate-500 mt-1">توعية وتدريب المزارعين</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم مجالات الخبرة (Expertise Section) -->
+    <section id="expertise" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-irrigation-600 font-bold uppercase tracking-wider text-sm">المهارات والقدرات</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mt-2 mb-4">مجالات الخبرة والتخصص الهندسي</h2>
+                <div class="w-24 h-1.5 bg-water-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- بطاقة 1 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition group">
+                    <div class="w-14 h-14 bg-irrigation-50 text-irrigation-600 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-irrigation-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-faucet-drip"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">أنظمة الري الحديثة</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        تصميم والإشراف على شبكات الري بالتنقيط والرش لتعظيم الاستفادة من كل قطرة مياه وزيادة الإنتاجية الزراعية.
+                    </p>
+                </div>
+
+                <!-- بطاقة 2 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition group">
+                    <div class="w-14 h-14 bg-water-50 text-water-600 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-water-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-droplet"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">إدارة الموارد المائية</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        متابعة توزيع المياه على الحقول، تقييم الاحتياجات المائية للمحاصيل المختلفة، وإعداد التقارير الفنية الدورية للوزارة.
+                    </p>
+                </div>
+
+                <!-- بطاقة 3 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition group">
+                    <div class="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-emerald-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-earth-americas"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">استصلاح الأراضي والتربة</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        إجراء تحليلات خواص التربة، دراسة صلاحيتها للزراعة، واقتراح المعالجات المناسبة لرفع الكفاءة الإنتاجية.
+                    </p>
+                </div>
+
+                <!-- بطاقة 4 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition group">
+                    <div class="w-14 h-14 bg-cyan-50 text-cyan-600 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-cyan-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-project-diagram"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">إدارة المشاريع القومية</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        المشاركة في فرق عمل تأهيل الترع والمساقي والمشروعات القومية الكبرى لترشيد المياه بالقطاع الزراعي بمصر.
+                    </p>
+                </div>
+
+                <!-- بطاقة 5 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition group">
+                    <div class="w-14 h-14 bg-teal-50 text-teal-600 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-teal-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">التحول الرقمي الزراعي</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        استخدام الأنظمة الرقمية الحديثة وقواعد البيانات الجغرافية لمراقبة وإدارة شبكات الري بكفاءة عالية.
+                    </p>
+                </div>
+
+                <!-- بطاقة 6 -->
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition group">
+                    <div class="w-14 h-14 bg-lime-50 text-lime-600 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:bg-lime-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-handshake-angle"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">الإرشاد والتوعية المائية</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        عقد ندوات وورش عمل للمزارعين لنشر الوعي بأهمية التحول من الري الغمر إلى نظم الري الحديثة ومكتسباتها.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم المشاريع والأعمال (Projects Section) -->
+    <section id="projects" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-water-600 font-bold uppercase tracking-wider text-sm">أبرز الإسهامات</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mt-2 mb-4">المشاريع والمبادرات الهندسية</h2>
+                <div class="w-24 h-1.5 bg-irrigation-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- مشروع 1 -->
+                <div class="bg-slate-50 rounded-3xl overflow-hidden border border-slate-100 hover:shadow-xl transition flex flex-col">
+                    <div class="h-48 bg-gradient-to-br from-irrigation-500 to-water-600 p-6 flex items-end">
+                        <span class="bg-white/20 backdrop-blur-md text-white text-xs font-semibold px-3 py-1 rounded-full">وزارة الري</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">مشروع تأهيل الترع والمساقي</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                                المساهمة في الإشراف على أعمال تأهيل المجاري المائية لضمان وصول المياه لنهايات السواقي وتقليل الفاقد.
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs font-bold text-irrigation-700">
+                            <i class="fa-solid fa-circle-check"></i> مشروع قومي استراتيجي
+                        </div>
+                    </div>
+                </div>
+
+                <!-- مشروع 2 -->
+                <div class="bg-slate-50 rounded-3xl overflow-hidden border border-slate-100 hover:shadow-xl transition flex flex-col">
+                    <div class="h-48 bg-gradient-to-br from-water-500 to-teal-600 p-6 flex items-end">
+                        <span class="bg-white/20 backdrop-blur-md text-white text-xs font-semibold px-3 py-1 rounded-full">إدارة المياه</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">دراسات ترشيد الري الحقلي</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                                إعداد أبحاث ميدانية لتقييم كفاءة الري بالتنقيط في الأراضي المستصلحة حديثاً وقياس نسبة توفير المياه.
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs font-bold text-water-700">
+                            <i class="fa-solid fa-circle-check"></i> بحث واختبار ميداني
+                        </div>
+                    </div>
+                </div>
+
+                <!-- مشروع 3 -->
+                <div class="bg-slate-50 rounded-3xl overflow-hidden border border-slate-100 hover:shadow-xl transition flex flex-col">
+                    <div class="h-48 bg-gradient-to-br from-emerald-600 to-irrigation-700 p-6 flex items-end">
+                        <span class="bg-white/20 backdrop-blur-md text-white text-xs font-semibold px-3 py-1 rounded-full">إرشاد زراعي</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">برنامج التوعية المائية للمزارعين</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                                إطلاق حملات توعوية وورش عمل لتشجيع المزارعين على تبني النظم الحديثة والري الذكي للحفاظ على الخزانات الجوفية.
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs font-bold text-emerald-700">
+                            <i class="fa-solid fa-circle-check"></i> خدمة مجتمعية وتنموية
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم التواصل (Contact Section) -->
+    <section id="contact" class="py-20 bg-slate-50 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <!-- معلومات التواصل -->
+                <div class="lg:col-span-5 space-y-8">
+                    <div>
+                        <span class="text-irrigation-600 font-bold uppercase tracking-wider text-sm">تواصل معي</span>
+                        <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mt-2 mb-4">نبني مستقبل زراعي ومائي مستدام معاً</h2>
+                        <p class="text-slate-600 leading-relaxed">
+                            يسعدني تلقي استفساراتكم الاستشارية، مقترحات التعاون المهني، أو مناقشة المشاريع الزراعية والمائية.
+                        </p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                            <div class="w-12 h-12 bg-irrigation-50 text-irrigation-600 rounded-xl flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-building-columns"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs text-slate-400 font-bold">الجهة العمل</h4>
+                                <p class="font-bold text-slate-900">وزارة الموارد المائية والري - مصر</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                            <div class="w-12 h-12 bg-water-50 text-water-600 rounded-xl flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs text-slate-400 font-bold">البريد الإلكتروني</h4>
+                                <p class="font-bold text-slate-900">manal.abdelfattah@irrigation.gov.eg</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs text-slate-400 font-bold">الموقع</h4>
+                                <p class="font-bold text-slate-900">القاهرة، جمهورية مصر العربية</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نموذج التواصل -->
+                <div class="lg:col-span-7">
+                    <div class="bg-white p-8 sm:p-10 rounded-3xl shadow-sm border border-slate-100">
+                        <h3 class="text-2xl font-black text-slate-900 mb-6">أرسل رسالة مباشرة</h3>
+                        <form id="contact-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2">الاسم الكريم</label>
+                                    <input type="text" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:border-irrigation-600 transition" placeholder="أدخل اسمك...">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2">البريد الإلكتروني</label>
+                                    <input type="email" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:border-irrigation-600 transition" placeholder="name@example.com">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">موضوع الرسالة</label>
+                                <input type="text" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:border-irrigation-600 transition" placeholder="استشارة هندسية / تعاون...">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">نص الرسالة</label>
+                                <textarea rows="4" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:border-irrigation-600 transition" placeholder="اكتب تفاصيل رسالتك هنا..."></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-gradient-to-r from-irrigation-600 to-water-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-irrigation-600/20 hover:opacity-95 transition">
+                                إرسال الرسالة
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- الفوتر (Footer) -->
+    <footer class="bg-slate-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-irrigation-600 to-water-600 flex items-center justify-center text-white">
+                    <i class="fa-solid fa-seedling"></i>
+                </div>
+                <div>
+                    <span class="block font-bold text-lg">م. منال عبد الفتاح</span>
+                    <span class="block text-xs text-slate-400">مهندسة زراعية - وزارة الري</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4 text-xl">
+                <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-irrigation-600 transition"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-water-600 transition"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-emerald-600 transition"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+
+            <p class="text-xs text-slate-500 text-center sm:text-right">
+                جميع الحقوق محفوظة &copy; 2026 | م. منال عبد الفتاح
+            </p>
+        </div>
+    </footer>
+
+    <!-- جافاسكريبت للتفاعل -->
+    <script>
+        // تفعيل قائمة الموبايل
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // نموذج التواصل والتعامل مع المودال (بدون alert)
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const modal = document.getElementById('toast-modal');
+            const modalContent = document.getElementById('modal-content');
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+
+            event.target.reset();
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('toast-modal');
+            const modalContent = document.getElementById('modal-content');
+            
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+    </script>
+</body>
+</html>
